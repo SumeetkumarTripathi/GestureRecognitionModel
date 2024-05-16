@@ -1,32 +1,71 @@
 # Gesture Recognition Machine Learning Model
 
 ## Problem Statement
-Development of a cool feature in the smart-TV that can recognise five different gestures performed by the user which will help users control the TV without using a remote.
+The objective is to develop a feature for a smart TV that recognizes five different gestures performed by the user, allowing control without using a remote. The gestures and their corresponding actions are:
 - Thumbs down: Decrease the volume
-- Left swipe: Jump backwards 10 seconds
+- Left swipe: Jump backward 10 seconds
 - Right swipe: Jump forward 10 seconds
 - Stop: Pause the movie
 
-## Dataset used for this project
-https://drive.google.com/uc?id=1ehyrYBQ5rbQQe6yL4XbLWe3FMvuVUGiL
-
-## Data Understanding
-The training data consists of a few hundred videos categorised into one of the five classes. Each video (typically 2-3 seconds long) is divided into a sequence of 30 frames(images). These videos have been recorded by various people performing one of the five gestures in front of a webcam - similar to what the smart TV will use.
+## Dataset
+The dataset comprises several hundred videos categorized into one of the five gesture classes. Each video, typically 2-3 seconds long, is divided into a sequence of 30 frames (images). These videos were recorded by various individuals performing the gestures in front of a webcam, akin to how the smart TV feature will operate.
 
 ## Objective
-The objective of this project is to implement and understand 3D convolutions as an extension of 2D convolutions for processing video data. While 2D convolutions are commonly used for image processing tasks, 3D convolutions provide a natural extension to analyze spatiotemporal features within videos. By leveraging the temporal dimension inherent in video sequences, we aim to extract meaningful features for tasks such as action recognition, video classification, and motion analysis.
-This project seeks to
-- Implement 3D convolutional neural networks (CNNs) to process video data represented as sequences of RGB images.
-- Explore the analogy between 2D and 3D convolutions, understanding how filters move across three dimensions (x, y, and z) to capture spatiotemporal patterns.
-- Study the impact of different filter sizes and architectures on the performance of 3D CNNs for video analysis tasks.
-- Investigate applications of 3D convolutions in computer vision tasks, including but not limited to action recognition and video classification.
-- Evaluate the effectiveness and efficiency of 3D convolutional models compared to traditional 2D CNNs for video processing tasks.
-By achieving these objectives, this project aims to contribute to the advancement of techniques for analyzing and understanding video data using deep learning approaches, thereby opening avenues for applications in fields such as surveillance, robotics, healthcare, and entertainment.
+The project aims to implement and comprehend 3D convolutions as an extension of 2D convolutions for video data processing. By leveraging 3D convolutions, which capture spatiotemporal features, the goal is to extract meaningful information for tasks like action recognition, video classification, and motion analysis. Specific objectives include:
+- Implementing 3D convolutional neural networks (CNNs) for video data processing.
+- Understanding the analogy between 2D and 3D convolutions and their application in capturing spatiotemporal patterns.
+- Investigating the impact of different filter sizes and architectures on 3D CNN performance.
+- Exploring applications of 3D convolutions in computer vision tasks, such as action recognition and video classification.
+- Evaluating the effectiveness and efficiency of 3D convolutional models compared to traditional 2D CNNs for video processing.
 
-## Preprocessing Techniques used
-- Resizing Images.
-- Normalization of images.
+## Preprocessing Techniques
+Preprocessing techniques employed include:
+- Resizing images.
+- Normalizing images.
 
 ## Observations
-Seven models were made in order to get the most accurate model that can perform the task.
-- VGG16 & RNN(GRU ): Train accuracy: 0.81 and Validation accuracy 0.58 | Model overfitted
+We created Eight models to determine the best accuracy. These models are as follows.
+- ### VGG16 & RNN(GRU)
+  - HyperParameters : `batch size=30` `frames=15`
+  - Results: Training accuracy: `0.81` Validation accuracy `0.58`
+  - Decision: Model overfitted the data
+    
+- ### RESNET-50
+  - HyperParameters : `batch_size=30` `epochs=20` `frames=15` `Validation_steps=4` `weights=imagenet` `activation=relu` `loss=categorical_ crossentropy`
+  - Results: Training accuracy: `0.9125` Validation accuracy `0.9100`
+  - Decision: Model is accurate
+
+- ### RESNET-50
+  - HyperParameters : `batch_size=30` `epochs=30` `frames=15` `Validation_steps=4` `weights=imagenet` `activation=relu` `loss=categorical_ crossentropy`
+  - Results: Training accuracy: `0.9065` Validation accuracy `0.8400`
+  - Decision: Model is some what accurate
+ 
+- ### RESNET-50
+  - HyperParameters : `batch_size=30` `epochs=30` `frames=20` `Validation_steps=4` `weights=imagenet` `activation=relu` `loss=categorical_ crossentropy`
+  - Results: On 23rd Epoch Training accuracy: `0.9472` Validation accuracy `0.9200`
+  - Decision: Model is accurate
+ 
+- ### CONV3D
+  - HyperParameters : `batch_size=30` `epochs=15` `frames=20`
+  - Results: Training accuracy: `0.9351` Validation accuracy `0.3700`
+  - Decision: Model is highly overfitting
+ 
+- ### CONV3D
+  - HyperParameters : `height=width=84` `frames=25` `epochs=15`
+  - Results: Training accuracy: `0.9261` Validation accuracy `0.5600`
+  - Decision: Model is overfitting
+ 
+- ### CONV3D
+  - HyperParameters : `augmentation=invert color` `epochs=10` `frames=25`
+  - Results: Training accuracy: `0.9306` Validation accuracy `0.1700`
+  - Decision: Model is highly overfitting
+ 
+- ### CONV3D
+  - HyperParameters : `augmentation=invert color, horizontal flip` `epochs=2` `frames=25`
+  - Results: NA
+  - Decision: Model error received
+
+  
+
+## Conclusion
+Among the models developed, `RESNET-50` yielded the highest performance, with a training accuracy of `94.72%` and a validation accuracy of `92%`. Thus, RESNET 50 is deemed the most suitable model for this task.
